@@ -1,0 +1,88 @@
+/* styles/register.css */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+  }
+  
+  .glass-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  }
+  
+  .glass-form h3 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .glass-form label {
+    font-weight: 500;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .glass-form input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
+    outline: none;
+  }
+  
+  .glass-form button {
+    width: 100%;
+    margin-top: 30px;
+    padding: 14px;
+    border-radius: 8px;
+    background-color: #0d6efd;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .glass-form button:hover {
+    background-color: #0b5ed7;
+  }
+  
+  .social {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .social .go,
+  .social .fb {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    color: #333;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: background 0.3s ease;
+  }
+  
+  .social .go:hover,
+  .social .fb:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  

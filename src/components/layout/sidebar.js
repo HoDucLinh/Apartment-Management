@@ -1,9 +1,6 @@
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 function Sidebar() {
@@ -27,8 +24,7 @@ function Sidebar() {
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link href="/">Trang chủ</Nav.Link>
               <Nav.Link href="/payment">Thanh toán </Nav.Link>
-              <Nav.Link href="/register"> </Nav.Link>
-              <Nav.Link href="/register">Đăng nhập </Nav.Link>
+              <Nav.Link href="/login">Đăng nhập </Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import "./styles/login.css";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   return (
@@ -15,12 +16,12 @@ const Login = () => {
 
         <button>Đăng nhập</button>
         <div className="social">
-          <div className="go">
-            <FaGoogle /> Google
-          </div>
-          <div className="fb">
-            <FaFacebook /> Facebook
-          </div>
+          <Link to="/auth/google" className="go">
+            <FaGoogle className="icon" /> Google
+          </Link>
+          <Link to="/auth/github" className="go">
+            <FaGithub className="icon" /> GitHub
+          </Link>
         </div>
       </form>
     </div>

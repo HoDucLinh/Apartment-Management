@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quản lý khảo sát</title>
+    <th:block th:replace="base :: bootstrap"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <div class="container mt-4">
+        <h2>Quản lý khảo sát</h2>
+
+        <!-- Form tạo khảo sát mới -->
+        <form th:action="@{/survey-manage/create}" method="post" class="mb-4">
+            <div class="mb-2">
+                <input type="text" name="title" class="form-control" placeholder="Tiêu đề khảo sát" required />
+            </div>
+            <div class="mb-2">
+                <textarea name="description" class="form-control" placeholder="Mô tả khảo sát" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Tạo khảo sát</button>
+        </form>
+
+        <!-- Danh sách khảo sát -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="survey : ${surveys}">
+                    <td th:text="${survey.id}">1</td>
+                    <td th:text="${survey.title}">Tiêu đề khảo sát</td>
+                    <td th:text="${survey.description}">Mô tả</td>
+                    <td>
+                        <a th:href="@{/survey-manage/detail/{id}(id=${survey.id})}" class="btn btn-info btn-sm">Chi tiết</a>
+                        <a th:href="@{/survey-manage/edit/{id}(id=${survey.id})}" class="btn btn-primary btn-sm">Sửa</a>
+                        <form th:action="@{/survey-manage/delete/{id}(id=${survey.id})}" method="post" style="display:inline">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xoá khảo sát này?')">Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="base :: footer"></div>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

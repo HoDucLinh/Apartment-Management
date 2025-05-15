@@ -32,7 +32,7 @@ public class FeedBackRepositoryImpl implements FeedBackRepository {
 
     @Override
     public List<Feedback> getAllFeedbacks() {
-        Query q = this.getCurrentSession().createQuery("FROM FeedBack", Feedback.class);
+        Query q = this.getCurrentSession().createQuery("FROM Feedback", Feedback.class);
         return q.getResultList();
     }
 

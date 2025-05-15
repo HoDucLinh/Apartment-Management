@@ -40,7 +40,7 @@ public class FeedBackServiceImpl implements FeedBackService {
 
     @Override
     public Feedback createFeedback(int userId, String content) {
-         User u = this.userRepo.getUserById(userId);
+        User u = this.userRepo.getUserById(userId);
         Feedback feedback = new Feedback();
         feedback.setUserId(u);
         feedback.setContent(content);
@@ -48,8 +48,9 @@ public class FeedBackServiceImpl implements FeedBackService {
         feedback.setStatus("PENDING");
         return this.feedBackRepo.createFeedback(feedback);
     }
-     @Override
-    public Feedback updateFeedback(int feedbackId , String content) {
+
+    @Override
+    public Feedback updateFeedback(int feedbackId, String content) {
         Feedback feedback = this.feedBackRepo.getFeedBackById(feedbackId);
         if (feedback != null) {
             feedback.setContent(content);
@@ -70,7 +71,12 @@ public class FeedBackServiceImpl implements FeedBackService {
 
     @Override
     public void deleteFeedback(int feedbackId) {
-        Feedback f  = this.feedBackRepo.getFeedBackById(feedbackId);
+        Feedback f = this.feedBackRepo.getFeedBackById(feedbackId);
         this.feedBackRepo.deleteFeedback(f);
+    }
+
+    @Override
+    public Feedback getFeedBackById(int feedbackId) {
+        return this.feedBackRepo.getFeedBackById(feedbackId);
     }
 }

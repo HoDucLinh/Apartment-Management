@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Chi tiết khảo sát</title>
+    <th:block th:replace="base :: bootstrap"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <div class="container mt-4">
+        <h2 th:text="'Khảo sát: ' + ${survey.title}">Chi tiết khảo sát</h2>
+        <p th:text="'Mô tả: ' + ${survey.description}"></p>
+
+        <form th:action="@{'/survey-manage/' + ${survey.id} + '/question/add'}" method="post">
+            <input type="text" name="content" class="form-control" placeholder="Nhập câu hỏi mới" required />
+            <button type="submit" class="btn btn-success">Thêm câu hỏi</button>
+        </form>
+
+
+
+        <!-- Danh sách câu hỏi -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nội dung câu hỏi</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="question : ${questions}">
+                    <td th:text="${question.id}">1</td>
+                    <td>
+                        <form th:action="@{'/survey-manage/' + ${survey.id} + '/question/edit/' + ${question.id}}" method="post" class="d-flex">
+                            <input type="text" name="content" th:value="${question.content}" class="form-control me-2" required />
+                            <button type="submit" class="btn btn-primary btn-sm me-1">Sửa</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{'/survey-manage/' + ${survey.id} + '/question/delete/' + ${question.id}}" method="post" style="display:inline">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xoá câu hỏi này?')">Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/survey-manage}" class="btn btn-secondary">Quay lại</a>
+
+    </div>
+    <div th:replace="base :: footer"></div>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

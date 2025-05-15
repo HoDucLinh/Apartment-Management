@@ -17,6 +17,8 @@ public interface FeedBackService {
 
     List<Feedback> getFeedbacksByUserId(int userId);
 
+    Feedback getFeedBackById(int feedbackId);
+
     Feedback createFeedback(int userId, String content);
 
     Feedback updateFeedback(int feedbackId, String content);

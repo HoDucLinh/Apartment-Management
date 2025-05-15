@@ -5,11 +5,15 @@
 package com.apartment_management.services.impl;
 
 import com.apartment_management.pojo.Survey;
+import com.apartment_management.pojo.User;
 import com.apartment_management.repositories.SurveyRepository;
 import com.apartment_management.repositories.UserRepository;
 import com.apartment_management.services.SurveyService;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,7 +28,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Override
     public List<Survey> getAllSurveys() {
         return surveyRepository.getAllSurveys();
@@ -36,19 +40,35 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public void createSurvey() {
-        Survey s = new Survey();
-        thisurveyRepository.createSurvey(s);
+    public void createSurvey(String title, String description) {
+        Survey survey = new Survey();
+        survey.setTitle(title);
+        survey.setDescription(description);
+        survey.setCreatedAt(new Date());
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails userDetails) {
+            String username = userDetails.getUsername();
+            User admin = userRepository.getUserByUserName(username);
+            survey.setAdminId(admin);
+        } else {
+            throw new IllegalStateException("User not authenticated or invalid principal");
+        }
+
+        surveyRepository.createSurvey(survey);
     }
 
     @Override
     public void updateSurvey(Survey survey) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (surveyRepository.getSurveyById(survey.getId()) != null) {
+            surveyRepository.updateSurvey(survey);
+        }
     }
 
     @Override
     public void deleteSurvey(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (surveyRepository.getSurveyById(id) != null) {
+            surveyRepository.deleteSurvey(id);
+        }
     }
-
 }

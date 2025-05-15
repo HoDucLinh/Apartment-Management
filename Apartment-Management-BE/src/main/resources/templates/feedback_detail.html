@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .feedback-container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .feedback-info {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        select, button {
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <h2>Chi tiết Feedback</h2>
+
+        <div class="feedback-info">
+            <p><strong>ID:</strong> <span th:text="${feedback.id}">1</span></p>
+            <p><strong>Người gửi:</strong> <span th:text="${feedback.userId.username}">username</span></p>
+            <p><strong>Ngày gửi:</strong> <span th:text="${#dates.format(feedback.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span></p>
+            <p><strong>Nội dung:</strong></p>
+            <p th:text="${feedback.content}">Nội dung phản ánh...</p>
+            <p><strong>Trạng thái hiện tại:</strong> <span th:text="${feedback.status}">PENDING</span></p>
+        </div>
+
+        <form th:action="@{'/feedbacks/' + ${feedback.id} + '/status'}" method="post">
+            <label for="status">Cập nhật trạng thái:</label>
+            <select name="status" id="status">
+                <option value="PENDING" th:selected="${feedback.status == 'PENDING'}">Chưa xử lý</option>
+                <option value="RESOLVED" th:selected="${feedback.status == 'RESOLVED'}">Đã xử lý</option>
+            </select>
+
+            <button type="submit">Lưu thay đổi</button>
+        </form>
+
+        <a th:href="@{/feedbacks}" class="back-link">← Quay lại danh sách</a>
+    </div>
+</body>
+</html>

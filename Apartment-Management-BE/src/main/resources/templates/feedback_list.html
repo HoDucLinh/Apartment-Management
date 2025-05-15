@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Feedback</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a.button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        a.button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Danh sách Feedback người dùng</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Người gửi</th>
+                <th>Nội dung</th>
+                <th>Ngày gửi</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="fb : ${feedbacks}">
+                <td th:text="${fb.id}">1</td>
+                <td th:text="${fb.userId.username}">username</td>
+                <td th:text="${fb.content}">Nội dung phản ánh...</td>
+                <td th:text="${#dates.format(fb.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+                <td th:text="${fb.status}">PENDING</td>
+                <td>
+                    <a th:href="@{'/feedbacks/' + ${fb.id}}" class="button">Xem chi tiết</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

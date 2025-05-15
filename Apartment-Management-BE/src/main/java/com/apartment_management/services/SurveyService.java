@@ -17,7 +17,7 @@ public interface SurveyService {
 
     Survey getSurveyById(int id);
 
-    void createSurvey();
+    void createSurvey(String title, String description);
 
     void updateSurvey(Survey survey);
 

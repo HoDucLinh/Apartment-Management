@@ -4,9 +4,11 @@
  */
 package com.apartment_management.controllers;
 
+import com.apartment_management.pojo.Feedback;
 import com.apartment_management.pojo.User;
 import com.apartment_management.services.FeedBackService;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +32,8 @@ public class FeedbackController {
     // Hiển thị danh sách feedback
     @GetMapping
     public String listFeedbacks(Model model) {
-        model.addAttribute("feedbacks", feedbackSer.getAllFeedbacks());
+        List<Feedback> feedbacks = feedbackSer.getAllFeedbacks();
+        model.addAttribute("feedbacks", feedbacks);
         return "feedback_list";
     }
 
@@ -44,7 +47,7 @@ public class FeedbackController {
     // Cập nhật trạng thái feedback
     @PostMapping("/{id}/status")
     public String updateFeedbackStatus(@PathVariable("id") int id,
-                                       @RequestParam("status") String status) {
+            @RequestParam("status") String status) {
         feedbackSer.updateFeedbackStatus(id, status);
         return "redirect:/admin/feedbacks";
     }

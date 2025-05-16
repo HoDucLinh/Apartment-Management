@@ -1,78 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Chi tiết Feedback</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .feedback-container {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .feedback-info {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-        }
-
-        select, button {
-            padding: 8px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        a.back-link {
-            display: inline-block;
-            margin-top: 15px;
-            text-decoration: none;
-            color: #555;
-        }
-    </style>
+    <title>Chi tiết phản ánh</title>
+    <th:block th:replace="base :: bootstrap"></th:block>
 </head>
 <body>
-    <div class="feedback-container">
-        <h2>Chi tiết Feedback</h2>
+    <div th:replace="base :: header"></div>
 
-        <div class="feedback-info">
-            <p><strong>ID:</strong> <span th:text="${feedback.id}">1</span></p>
-            <p><strong>Người gửi:</strong> <span th:text="${feedback.userId.username}">username</span></p>
-            <p><strong>Ngày gửi:</strong> <span th:text="${#dates.format(feedback.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span></p>
-            <p><strong>Nội dung:</strong></p>
-            <p th:text="${feedback.content}">Nội dung phản ánh...</p>
-            <p><strong>Trạng thái hiện tại:</strong> <span th:text="${feedback.status}">PENDING</span></p>
+    <div class="container mt-4">
+        <h2 class="mb-4">Chi tiết phản ánh</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <p><strong>ID:</strong> <span th:text="${feedback.id}">1</span></p>
+                <p><strong>Người gửi:</strong> <span th:text="${feedback.userId.username}">username</span></p>
+                <p><strong>Ngày gửi:</strong> <span th:text="${#dates.format(feedback.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span></p>
+                <p><strong>Nội dung:</strong></p>
+                <p class="border rounded p-2 bg-light" th:text="${feedback.content}">Nội dung phản ánh...</p>
+                <p>
+                    <strong>Trạng thái hiện tại:</strong>
+                    <span th:text="${feedback.status}" 
+                          th:classappend="${feedback.status == 'PENDING'} ? 'badge bg-warning text-dark' :
+                                           (feedback.status == 'RESOLVED') ? 'badge bg-success' :
+                                           'badge bg-secondary'">PENDING</span>
+                </p>
+            </div>
         </div>
 
-        <form th:action="@{'/feedbacks/' + ${feedback.id} + '/status'}" method="post">
-            <label for="status">Cập nhật trạng thái:</label>
-            <select name="status" id="status">
-                <option value="PENDING" th:selected="${feedback.status == 'PENDING'}">Chưa xử lý</option>
-                <option value="RESOLVED" th:selected="${feedback.status == 'RESOLVED'}">Đã xử lý</option>
-            </select>
-
-            <button type="submit">Lưu thay đổi</button>
+        <form th:action="@{'/feedbacks/' + ${feedback.id} + '/status'}" method="post" class="mb-4">
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Cập nhật trạng thái:</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="PENDING" th:selected="${feedback.status == 'PENDING'}">Chưa xử lý</option>
+                        <option value="RESOLVED" th:selected="${feedback.status == 'RESOLVED'}">Đã xử lý</option>
+                    </select>
+                </div>
+                <div class="col-md-auto mt-3 mt-md-0">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </div>
         </form>
 
-        <a th:href="@{/feedbacks}" class="back-link">← Quay lại danh sách</a>
+        <a th:href="@{/feedbacks}" class="btn btn-secondary">← Quay lại danh sách</a>
     </div>
+
+    <div th:replace="base :: footer"></div>
+    <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

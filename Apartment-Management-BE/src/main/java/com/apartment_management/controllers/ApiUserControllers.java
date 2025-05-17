@@ -79,4 +79,34 @@ public class ApiUserControllers {
         return new ResponseEntity<>(this.userService.getUserByUserName(principal.getName()), HttpStatus.OK);
     }
 
+    @PutMapping(path = "/users/{id}/update_avatar", consumes = MediaType.MULTIPART_FORM_DATA)
+    public ResponseEntity<?> updateAvatar(
+            @PathVariable("id") int userId,
+            @RequestParam("avatar") MultipartFile file) {
+
+        User updatedUser = userService.updateAvatar(userId, file);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(Collections.singletonMap("message", "Cập nhật avatar thành công"));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("error", "Không thể cập nhật avatar"));
+        }
+    }
+
+    @PutMapping("/users/{id}/change_password")
+    public ResponseEntity<?> changePassword(
+            @PathVariable("id") int userId,
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword) {
+
+        boolean success = userService.changePassword(userId, oldPassword, newPassword);
+
+        if (success) {
+            return ResponseEntity.ok(Collections.singletonMap("message", "Đổi mật khẩu thành công"));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("error", "Mật khẩu cũ không đúng hoặc người dùng không tồn tại"));
+        }
+    }
+
 }

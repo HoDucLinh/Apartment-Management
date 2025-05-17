@@ -153,4 +153,41 @@ public class UserServiceImpl implements UserService {
         return u;
     }
 
+    @Override
+    public User updateAvatar(int userId, MultipartFile file) {
+        User user = userRepo.getUserById(userId);
+        if (user == null || file == null || file.isEmpty()) {
+            return null;
+        }
+
+        try {
+            Map res = cloudinary.uploader().upload(file.getBytes(),
+                    ObjectUtils.asMap("resource_type", "auto"));
+            user.setAvatarUrl(res.get("secure_url").toString());
+            return userRepo.editProfile(user);
+        } catch (IOException ex) {
+            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean changePassword(int userId, String oldPassword, String newPassword) {
+        User user = userRepo.getUserById(userId);
+        if (user == null) {
+            return false;
+        }
+
+        // Kiểm tra mật khẩu cũ
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return false; // Sai mật khẩu cũ
+        }
+
+        // Cập nhật mật khẩu mới
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepo.editProfile(user);
+        return true;
+    }
+
 }

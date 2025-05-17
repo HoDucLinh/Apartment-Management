@@ -1,4 +1,4 @@
-// src/components/login.js
+// src/components/Login.js
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./styles/login.css";
@@ -6,6 +6,7 @@ import { FaGithub, FaGoogle } from "react-icons/fa";
 import { Alert, Spinner } from "react-bootstrap";
 import Apis, { endpoints } from "../configs/Apis";
 import { MyDispatcherContext } from "../configs/MyContexts";
+import cookie from "react-cookies";
 
 const Login = () => {
   const [user, setUser] = useState({ username: "", password: "" });
@@ -28,25 +29,45 @@ const Login = () => {
       form.append("username", user.username);
       form.append("password", user.password);
 
-      const res = await Apis.post(endpoints.login, form, {
+      // Gọi API đăng nhập
+      const res = await Apis.post(endpoints['login'], form, {
         headers: {
           Accept: "application/json",
         },
       });
 
-      if (typeof dispatch !== "function") {
-        throw new Error("dispatch is not a function");
-      }
+      const token = res.data.token;
 
-      dispatch({
-        type: "login",
-        payload: res.data,
+      // Lưu token vào cookie
+      cookie.save("token", token, {
+        path: "/",
+        maxAge: 3600, // 1 giờ
       });
 
+      // Gọi API lấy thông tin user
+      const profileRes = await Apis.get(endpoints['current-user'], {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Lưu user info vào Context
+      if (typeof dispatch === "function") {
+        dispatch({
+          type: "login",
+          payload: profileRes.data,
+        });
+      }
+
+      // Chuyển về trang chủ
       nav("/");
     } catch (err) {
-      console.error("Error:", err);
-      setMsg(err.response?.data || "Tên đăng nhập hoặc mật khẩu không đúng!");
+      const errorData = err.response?.data;
+      if (errorData && typeof errorData === "object") {
+        setMsg(errorData.error || "Tên đăng nhập hoặc mật khẩu không đúng!");
+      } else {
+        setMsg(errorData || "Tên đăng nhập hoặc mật khẩu không đúng!");
+      }
     } finally {
       setLoading(false);
     }

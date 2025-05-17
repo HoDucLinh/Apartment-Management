@@ -7,18 +7,23 @@ export const endpoints = {
     'login': '/login',
     'payment': '/payment',
     'get-invoices': (userId) => `/api/invoices/${userId}`,
-
-
+    'current-user': '/secure/profile',
+    'change-password': (userId) => `users/${userId}/change_password`,
+    'updateAvatar': (userId) => `/users/${userId}/update_avatar`
 }
 
-export const authApis = () => {
+export const authApis = (token = null) => {
+    if (!token) {
+        token = cookie.load('token'); // fallback nếu không truyền từ props
+    }
+
     return axios.create({
         baseURL: BASE_URL,
         headers: {
-            'Authorization': `Bearer ${cookie.load('token')}`
+            'Authorization': `Bearer ${token}`
         }
-    })
-}
+    });
+};
 
 export default axios.create({
     baseURL: BASE_URL

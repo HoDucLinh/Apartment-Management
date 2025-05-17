@@ -6,22 +6,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/layout/footer';
 import Login from './components/login';
 import Payment from './components/payment';
+import MyUserReducer from "./reducers/MyUserReducer";
+import { useReducer } from 'react';
+import { MyDispatcherContext, MyUserContext } from './configs/MyContexts';
 
-function App() {
+
+
+const App = () => {
+  const [user, dispatch] = useReducer(MyUserReducer, null);
+
   return (
-    <div className="app-container">
+    <MyUserContext.Provider value={user}>
+      <MyDispatcherContext.Provider value={dispatch}>
       <BrowserRouter>
         <Sidebar />
-        <div className="content-wrap">
           <Routes> 
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/payment" element={<Payment />} />
           </Routes>
-        </div>
         <Footer />
       </BrowserRouter>
-    </div>
+    </MyDispatcherContext.Provider>
+    </MyUserContext.Provider>
   );
 }
 

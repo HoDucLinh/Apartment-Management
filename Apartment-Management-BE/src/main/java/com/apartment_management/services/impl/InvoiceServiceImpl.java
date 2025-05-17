@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
  * @author ADMIN
  */
 @Service
-public class InvoiceServiceImpl implements InvoiceService{
+public class InvoiceServiceImpl implements InvoiceService {
+
     @Autowired
     private InvoiceRepository invoiceRepository;
 
@@ -24,4 +25,10 @@ public class InvoiceServiceImpl implements InvoiceService{
     public List<Invoice> getInvoicesByUserId(int userId) {
         return invoiceRepository.getInvoicesByUserId(userId);
     }
+
+    @Override
+    public Invoice getInvoiceById(int id) {
+        return invoiceRepository.getInvoiceById(id);
+    }
+
 }

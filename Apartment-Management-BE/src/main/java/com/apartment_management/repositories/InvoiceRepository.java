@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface InvoiceRepository {
     List<Invoice> getInvoicesByUserId(int userId);
-    
+    Invoice getInvoiceById(int id);
 }

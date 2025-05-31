@@ -80,8 +80,8 @@ public class Invoice implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoiceId", fetch = FetchType.EAGER)
     private Set<DetailInvoice> detailInvoiceSet;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
+    @ManyToOne(cascade = CascadeType.DETACH)
     private User userId;
 
     public Invoice() {

@@ -103,13 +103,13 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "adminId")
     @JsonIgnore
     private Set<Survey> surveySet;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId" ,cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Invoice> invoiceSet;
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @ManyToOne
     private Room roomId;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId" ,cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Card> cardSet;
     @JsonIgnore
